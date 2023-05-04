@@ -21,8 +21,8 @@ def floydWarshall(graph):
             if used_edges[i][j]==True:
                 count = count + 1
     return count/2
-    printSolution(dist)
-    printUsedEdges(used_edges)
+    #printSolution(dist)
+    #printUsedEdges(used_edges)
     
     
 def BFS (graph,s):
@@ -54,7 +54,8 @@ def solution1(graph):
         temp = BFS(dist,i)
         for j in range(V):
             pathSeeker(j,temp,used_edges)
-    printUsedEdges(used_edges)
+    #printUsedEdges(used_edges)
+    count = 0
     for i in range(V):
         for j in range(V):
             if used_edges[i][j]==True:
@@ -67,12 +68,10 @@ def pathSeeker (current, nodes, used_edges):
         return
     else:
          for i in nodes[current][2]:
-             used_edges[current][i] = True,   
+             used_edges[current][i] = True   
              return pathSeeker(i,nodes,used_edges)
 # A utility function to print the solution
 def printSolution(dist):
-    print("Following matrix shows the shortest distances\
-between every pair of vertices")
     V = V = len(dist[0])
     for i in range(V):
         for j in range(V):
@@ -84,8 +83,6 @@ between every pair of vertices")
                 print()
                 
 def printUsedEdges(dist):
-    print("Following matrix shows the shortest distances\
-between every pair of vertices")
     V = V = len(dist[0])
     for i in range(V):
         for j in range(V):
@@ -105,5 +102,3 @@ graph2 = [[0, 1, INF, INF,INF],
 		[INF, 1, INF, 0,1],
         [INF,INF,1,1,0]
 			]
-
-a = floydWarshall(graph1)
