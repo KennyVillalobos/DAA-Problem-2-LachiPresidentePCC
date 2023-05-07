@@ -23,7 +23,16 @@ def floydWarshall(graph):
     return count/2
     #printSolution(dist)
     #printUsedEdges(used_edges)
-    
+
+
+def get_min(nodes):
+    minimum = INF
+    index = 0
+    for i,node in enumerate(nodes):
+        if node[1] < minimum:
+            index = i
+
+    return index
     
 def BFS (graph,s):
     dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
@@ -32,7 +41,8 @@ def BFS (graph,s):
     nodes[s][1]=0
     lista=[[s,0,[None]]]
     while len(lista)>0:
-        current = lista.pop(0)
+        #current = lista.pop(0)
+        current = lista.pop(get_min(lista))
         for i in range(V):
             if i != current[0]:
                 if dist[current[0]][i] < INF and nodes[i][1] >= nodes[current[0]][1] + dist[current[0]][i]:
@@ -48,6 +58,7 @@ def BFS (graph,s):
 
 def solution1(graph):
     dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
+    solution_matrix = [[0 for i in range(len(dist[0]))] for i in range (len(dist[0]))] #this is new 
     used_edges = [[False for i in range(len(dist[0]))] for i in range (len(dist[0]))]
     V = len(dist)
     for i in range(V):
