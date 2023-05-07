@@ -27,7 +27,7 @@
 %
 \section{Definici\'on del Problema}
 
-Se tiene un grafo dirigido de $n$ vértices, unidos por arcos ponderados. Se desea computar para cada par 
+Se tiene un grafo no dirigido de $n$ vértices, unidos por arcos ponderados. Se desea computar para cada par 
 de vértices $s$ y $t$ cuántos arcos pertenecen a algún camino de costo mínimo entre $s$ y $t$. La 
 representación computacional del grafo de entrada será una matriz de costos.
 
@@ -35,19 +35,22 @@ representación computacional del grafo de entrada será una matriz de costos.
 
 \subsection{Idea del Algoritmo}
 
-Se le realiza al algoritmo de Dijkstra la siguiente modificaci\'on: Sea d[u] el costo de llegar desde origen hasta el v\'ertice u.   
-En cada nodo, en vez de guardar un padre, se guarda una lista de padres, de forma tal que si  
-Cuando se haga relax(u, v), si el costo 
-computado hasta el momento de llegar a v  desde el origen d[v], es igual al costo de ir del origen a u d[u] m\'as 
-el costo del arco <u,v> entonces a\~{n}adimos a la lista de padres de v el v\'ertice u. De esta forma 
-mediante el array pi podemos reconstruir todos los caminos de costo m\'inimo que llegan a u. Por cada 
+Se le realiza al algoritmo de Dijkstra la siguiente modificaci\'on: Sea $d[u]$ el costo de llegar desde origen hasta el v\'ertice $u$.   
+En cada nodo, en vez de guardar un padre, se guarda una lista de padres, de forma tal que  
+cuando se haga $relax(u, v)$, si el costo 
+computado hasta el momento de llegar a $v$  desde el origen $d[v]$, es igual al costo de ir del origen a $u$ $d[u]$ m\'as 
+el costo del arco $(u,v)$ entonces a\~{n}adimos a la lista de padres de $v$ el v\'ertice $u$. Mediante estas listas de padres
+podemos reconstruir todos los caminos de costo m\'inimo que llegan a $u$. Se tendr\'a una matriz \textbf{$solution$}
+donde en la posici\'on $(i,j)$ almacenar\'a el conteo de la cantidad de caminos de costo m\'inimo entre el nodo $i$ y el nodo $j$. Por cada 
 v\'ertice del grafo se efect\'ua el algoritmo de Dijkstra con la modificaci\'on anteriormente explicada. 
-Cada vez que se termine una ejecuci\'on de Dijkstra, para cada par origen, v se recorren todos los caminos 
+Cada vez que se termine una ejecuci\'on de Dijkstra para el origen de turno, llamemosle $u$, para cada par $(u, v)$ se recorren todos los caminos 
 de costo m\'inimo encontrados y se cuentan todas los arcos que participan en dichos caminos, los arcos se 
-contaran solo una vez, marcando en una matriz booleana los arcos ya contados. Luego de esto se tendr\'an 
+contaran solo una vez, pues a medida que se recorren los caminos se ir\'a marcando en una matriz booleana los arcos ya contados. Por cada arco no marcado 
+que se visite se aumenta en 1 el valor de \textbf{$solution[u, v]$}. 
+Luego de esto se tendr\'an 
 computados la cantidad de aristas que participan en caminos de costo m\'inimo para los pares donde 
-origen participe or\'igen. Repitiendo este proceso para cada uno de los v\'ertices del grafo se obtiene 
-la respuesta deseada.
+origen de los caminos sea $u$, pares $(u,v)$, donde v es un v\'ertice del grafo distinto de $u$. Repitiendo este proceso para cada uno de los v\'ertices del grafo 
+en \textbf{$solution$} estar\'a almacenada la respuesta deseada.
 
 \subsection{Correctitud}
 
@@ -59,11 +62,13 @@ par de nodos y cuenta los arcos que intervienen en los caminos una sola vez.
 
 \subsection{Complejidad Temporal}
 
+La modificaci\'on hecha al algoritmo de Dijkstra no afecta su complejidad temporal, solo se agregan operaciones de complejidad 
+constante a la operaci\'on relax.
 Dijkstra tiene complejidad $O(|E| + |V|log|V|)$. Luego reconstruir todos los caminos de costo m\'inimo 
 entre un par de v\'ertices es $O(V)$. En cada iteraci\'on del algoritmo se ejecuta una vez el algoritmo 
-de Dijkstra y luego por cada uno de los |V| - 1 pares a analizar en la iteraci\'on se reconstruyen sus 
-caminos de costo m\'inimo, luego pueden existir como m\'aximo |E| camino de costo m\'inimo diferentes 
-de un origen a un destino, luego el costo de contar todos los caminos de costo m\'inimo entre los |V| - 1
+de Dijkstra y luego por cada uno de los $|V| - 1$ pares a analizar en la iteraci\'on se reconstruyen sus 
+caminos de costo m\'inimo, luego pueden existir como m\'aximo $|E|$ camino de costo m\'inimo diferentes 
+de un origen a un destino, luego el costo de contar todos los caminos de costo m\'inimo entre los $|V| - 1$
 pares es $O((|V|-1)|E||V|)$ = $O(|V|^2|E|)$ = $O(|V|^4)$. Luego el coste de una iteraci\'on es $O(|E| + |V|log|V| + |V|^4)$. 
 El algoritmo realiza $|V|$ iteraciones. Por tanto la complejidad temporal del algoritmo es $O(|V|*(|E| + |V|log|V| + |V|^4))$, 
 que es $O(|V|^5)$

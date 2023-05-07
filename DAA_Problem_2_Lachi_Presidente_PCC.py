@@ -59,28 +59,28 @@ def BFS (graph,s):
 def solution1(graph):
     dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
     solution_matrix = [[0 for i in range(len(dist[0]))] for i in range (len(dist[0]))] #this is new 
-    used_edges = [[False for i in range(len(dist[0]))] for i in range (len(dist[0]))]
+    
     V = len(dist)
     for i in range(V):
         temp = BFS(dist,i)
         for j in range(V):
-            pathSeeker(j,temp,used_edges)
-    #printUsedEdges(used_edges)
-    count = 0
-    for i in range(V):
-        for j in range(V):
-            if used_edges[i][j]==True:
-                count = count + 1
-    return count/2
+            used_edges = [[False for i in range(len(dist[0]))] for i in range (len(dist[0]))]
+            pathSeeker(j,temp,used_edges, i, j, solution_matrix)
+    return solution_matrix
     
     
-def pathSeeker (current, nodes, used_edges):
+def pathSeeker (current, nodes, used_edges, left, right, sol):
     if nodes[current][2].__contains__(None):
         return
     else:
          for i in nodes[current][2]:
-             used_edges[current][i] = True   
-             return pathSeeker(i,nodes,used_edges)
+            if not used_edges[i][current]:
+                used_edges[current][i] = True 
+                used_edges[i][current] = True
+                sol[left][right] += 1
+            pathSeeker(i,nodes,used_edges, left, right, sol)
+
+
 # A utility function to print the solution
 def printSolution(dist):
     V = V = len(dist[0])
@@ -102,14 +102,17 @@ def printUsedEdges(dist):
                 print()
 
 graph1 = [[0, 5, INF, 10],
-		[5, 0, 3, INF],
-		[INF, 3, 0, 1],
-		[10, INF, 1, 0]
+		  [5, 0, 3, INF],
+		  [INF, 3, 0, 1],
+		  [10, INF, 1, 0]
 			]
 
 graph2 = [[0, 1, INF, INF,INF],
-		[1, 0, 1, 1,INF],
-		[INF, 1, 0, INF,1],
-		[INF, 1, INF, 0,1],
-        [INF,INF,1,1,0]
+		  [1, 0, 1, 1,INF],
+		  [INF, 1, 0, INF,1],
+		  [INF, 1, INF, 0,1],
+          [INF,INF,1,1,0]
 			]
+
+a = solution1(graph2)
+printUsedEdges(a)
