@@ -75,7 +75,7 @@ def pathSeeker (current, nodes, used_edges, left, right, sol):
     else:
          for i in nodes[current][2]:
             if not used_edges[i][current]:
-                used_edges[current][i] = True 
+                #used_edges[current][i] = True 
                 used_edges[i][current] = True
                 sol[left][right] += 1
             pathSeeker(i,nodes,used_edges, left, right, sol)
@@ -125,15 +125,17 @@ def solution2(graph):
     
     for i in range(V):
         for j in range(V):
-            for k in range(V):
-                if fw[i][j] == fw[i][k] + fw[k][j] and k!=i:
-                    used_vertex[i][j].append(k)
-                if fw[i][j] == fw[i][k] + dist[k,j]:
-                    incoming_edges_to_j[i][j] = incoming_edges_to_j[i][j] + 1
+            if(i!=j):
+                for k in range(V):
+                    
+                    if fw[i][j] == fw[i][k] + fw[k][j] and k!=i:
+                        used_vertex[i][j].append(k)
+                    if fw[i][j] == fw[i][k] + dist[k][j] and k!=j:
+                        incoming_edges_to_j[i][j] = incoming_edges_to_j[i][j] + 1
             
     for i in range(V):
         for j in range(V):
-            for v in used_vertex:
+            for v in used_vertex[i][j]:
                 edges_involved[i][j] = edges_involved[i][j] + incoming_edges_to_j[i][v]
                 
     return edges_involved
@@ -153,4 +155,7 @@ graph2 = [[0, 1, INF, INF,INF],
 			]
 
 a = solution1(graph2)
+b = solution2(graph2)
 printUsedEdges(a)
+print()
+printUsedEdges(b)
