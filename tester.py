@@ -2,7 +2,7 @@ from colorama import Fore
 from DAA_Problem_2_Lachi_Presidente_PCC import *
 from test_cases_generator import generator
 
-algorithm = {"1" : floydWarshall, "2" : solution1}
+algorithm = {"1" : solution1, "2" : solution2}
 generator = {"1" : generator}
 
 print("Solutions:")
