@@ -154,8 +154,8 @@ graph2 = [[0, 1, INF, INF,INF],
           [INF,INF,1,1,0]
 			]
 
-a = solution1(graph2)
-b = solution2(graph2)
-printUsedEdges(a)
-print()
-printUsedEdges(b)
+# a = solution1(graph2)
+# b = solution2(graph2)
+# printUsedEdges(a)
+# print()
+# printUsedEdges(b)

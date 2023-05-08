@@ -10,12 +10,14 @@ def generator(amount):
         graph = [[inf for i in range(vertex_number)] for j in range(vertex_number)]
 
         for j in range(vertex_number):
-            for k in range(j+1, vertex_number):
-                r = random.choices([True, False])
-                if r:
-                    cost = random.randint(1, 100)
-                    graph[j][k] = cost
-                    graph[k][j] = cost
+            for k in range(vertex_number):
+                if j !=k:
+                    r = random.choices([True, False])
+                    if r:
+                        cost = random.randint(1, 100)
+                        graph[j][k] = cost
+                else:
+                    graph[j][k] = 0
 
         cases.append(graph)
 
