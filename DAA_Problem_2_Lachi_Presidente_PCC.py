@@ -1,7 +1,7 @@
 import numpy as np
 INF = np.Infinity
 
-def floydWarshall(graph):
+def floydWarshallForCalculateAllUsedEdges (graph):
     dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
     used_edges = [[True for i in range(len(dist[0]))] for i in range (len(dist[0]))]
     V = len(dist[0])
@@ -34,7 +34,7 @@ def get_min(nodes):
 
     return index
     
-def BFS (graph,s):
+def Disjkstra (graph,s):
     dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
     V = len(dist[0])
     nodes = [[i,INF,[None]] for i in range(V)]
@@ -62,7 +62,7 @@ def solution1(graph):
     used_edges = [[False for i in range(len(dist[0]))] for i in range (len(dist[0]))]
     V = len(dist)
     for i in range(V):
-        temp = BFS(dist,i)
+        temp = Disjkstra(dist,i)
         for j in range(V):
             pathSeeker(j,temp,used_edges)
     #printUsedEdges(used_edges)
@@ -81,6 +81,8 @@ def pathSeeker (current, nodes, used_edges):
          for i in nodes[current][2]:
              used_edges[current][i] = True   
              return pathSeeker(i,nodes,used_edges)
+         
+         
 # A utility function to print the solution
 def printSolution(dist):
     V = V = len(dist[0])
@@ -92,7 +94,8 @@ def printSolution(dist):
                 print("%7d\t" % (dist[i][j]), end=' ')
             if j == V-1:
                 print()
-                
+
+# A utility function to print the solution
 def printUsedEdges(dist):
     V = V = len(dist[0])
     for i in range(V):
@@ -101,6 +104,43 @@ def printUsedEdges(dist):
             if j == V-1:
                 print()
 
+
+
+
+def floydWarshall(graph):
+    dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
+    V = len(dist[0])
+    for k in range(V):
+        for i in range(V):
+            for j in range(V):
+                if dist[i][j] > dist[i][k] + dist [k][j]:
+                    dist[i][j] = dist[i][k] + dist [k][j]
+    return dist
+
+def solution2(graph):
+    dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
+    V = len(dist[0])
+    fw = floydWarshall(dist)
+    used_vertex = [[[] for i in range(V)] for i in range(V)]
+    incoming_edges_to_j = [[0 for i in range(V)] for i in range(V)]
+    edges_involved = [[0 for i in range(V)] for i in range(V)]
+    
+    for i in range(V):
+        for j in range(V):
+            for k in range(V):
+                if fw[i][j] == fw[i][k] + fw[k][j] and k!=i:
+                    used_vertex[i][j].append(k)
+                if fw[i][j] == fw[i][k] + dist[k,j]:
+                    incoming_edges_to_j[i][j] = incoming_edges_to_j[i][j] + 1
+            
+    for i in range(V):
+        for j in range(V):
+            for v in used_vertex:
+                edges_involved[i][j] = edges_involved[i][j] + incoming_edges_to_j[i][v]
+                
+    return edges_involved
+    
+    
 graph1 = [[0, 5, INF, 10],
 		[5, 0, 3, INF],
 		[INF, 3, 0, 1],
