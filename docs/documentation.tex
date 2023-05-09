@@ -27,7 +27,7 @@
 %
 \section{Definici\'on del Problema}
 
-Se tiene un grafo no dirigido de $n$ vértices, unidos por arcos ponderados. Se desea computar para cada par 
+Se tiene un grafo dirigido de $n$ vértices, unidos por arcos ponderados. Se desea computar para cada par 
 de vértices $s$ y $t$ cuántos arcos pertenecen a algún camino de costo mínimo entre $s$ y $t$. La 
 representación computacional del grafo de entrada será una matriz de costos.
 
@@ -113,6 +113,14 @@ al costo de un camino de costo mínimo de $i$ a $y$.
 Por lo cual: $ y \in CCM_(i,j) \land (x,y) \in e_(i,y)$, y por lo tanto el algoritmo cuenta a $(x,y)$
 
 Ahora demostremos que si el algoritmo cuenta una arista, esta pertence a algún camino de costo mínimo ente $i$ y $j$:
+
+Sea $(p,j)$ una arista, si el algoritmo la cuenta, entonces esta arista cumple para alg\'un vértice $i$, tal que exista al menos un camino de $i$ a $j$, que 
+$fw[i,p] + cost[p,j] = fw[i,j]$, esto significa que el camino que empieza en $i$ pasa por $p$ y luega va a $j$ es un camino de costo m\'inimo de $i$ a $j$, 
+pues su costo es $fw[i,p] + cost[p,j]$ el cual coincide con el costo del camino de costo m\'inimo computado por el algoritmo de Floyd-Warshal,$fw[i,j]$. Luego 
+la arista $(p,j)$ participa en un camino de costo m\'inimo entre $i$ y $j$.
+
+Por \'ultimo el algoritmo cuenta las aristas que pertenecen a caminos de costo m\'inimo entre $i$ y $j$ una sola vez pues el algoritmo cuenta las aristas 
+que llegan a un v\'ertice y no revisa un v\'ertice dos veces.
 
 
 \subsection{Complejidad Temporal}
