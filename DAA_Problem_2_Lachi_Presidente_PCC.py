@@ -64,21 +64,31 @@ def solution1(graph):
     for i in range(V):
         temp = Disjkstra(dist,i)
         for j in range(V):
-            used_edges = [[False for i in range(len(dist[0]))] for i in range (len(dist[0]))]
-            pathSeeker(j,temp,used_edges, i, j, solution_matrix)
+            used_nodes = [False for i in range (len(dist[0]))]
+            pathSeeker(j,temp,used_nodes, i, j, solution_matrix)
     return solution_matrix
     
     
-def pathSeeker (current, nodes, used_edges, left, right, sol):
+# def pathSeeker (current, nodes, used_edges, left, right, sol):
+#     if nodes[current][2].__contains__(None):
+#         return
+#     else:
+#          for i in nodes[current][2]:
+#             if not used_edges[i][current]:
+#                 #used_edges[current][i] = True 
+#                 used_edges[i][current] = True
+#                 sol[left][right] += 1
+#             pathSeeker(i,nodes,used_edges, left, right, sol)
+            
+def pathSeeker (current, nodes, used_nodes, left, right, sol):
     if nodes[current][2].__contains__(None):
         return
     else:
          for i in nodes[current][2]:
-            if not used_edges[i][current]:
-                #used_edges[current][i] = True 
-                used_edges[i][current] = True
-                sol[left][right] += 1
-            pathSeeker(i,nodes,used_edges, left, right, sol)
+            sol[left][right] += 1
+            if not used_nodes[i]:
+                used_nodes[i] = True
+                pathSeeker(i,nodes,used_nodes, left, right, sol)
 
 
 # A utility function to print the solution

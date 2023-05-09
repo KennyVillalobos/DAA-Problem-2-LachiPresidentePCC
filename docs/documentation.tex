@@ -64,7 +64,7 @@ par de nodos y cuenta los arcos que intervienen en los caminos una sola vez.
 
 La modificaci\'on hecha al algoritmo de Dijkstra no afecta su complejidad temporal, solo se agregan operaciones de complejidad 
 constante a la operaci\'on relax.
-Dijkstra tiene complejidad $O(|E| + |V|log|V|)$. Luego reconstruir todos los caminos de costo m\'inimo 
+La modalidad de Dijkstra utilizada tiene complejidad $O(|V|^2)$. Luego reconstruir todos los caminos de costo m\'inimo 
 entre un par de v\'ertices es $O(V)$. En cada iteraci\'on del algoritmo se ejecuta una vez el algoritmo 
 de Dijkstra y luego por cada uno de los $|V| - 1$ pares a analizar en la iteraci\'on se reconstruyen sus 
 caminos de costo m\'inimo, luego pueden existir como m\'aximo $|E|$ camino de costo m\'inimo diferentes 
@@ -87,9 +87,28 @@ mínimo provenientes de $i$:
 $S_(v_i,v_j) = \sum e_(i,k), \forall k\in CCM_(i,j) $
 
 \subsection{Correctitud}
+Primero demostremos que si una arista pertenece a algún camino de costo mínimo entre $i$ y $j$, el algoritmo la cuenta:
 
 Si una arista $(x,y)$ pertence a algún camino de costo mínimo entre $i$ y $j$, entonces: $y$ es un vértice que pertence a algún camino de costo mínimo entre $i$ y $j$ y se cumple que: 
 el costo mínimo de un camino de $i$ a $y$ sumado con el costo de un camino de costo mínimo de $y$ a $j$ es igual al costo de algún camino de costo mínimo de $i$ a $j$
+
+Luego, si $(x,y)$ pertenece a algún camino de costo mínimo entre $i$ y $j$, $x,y$ pertenece a algún camino de costo mínimo entre $i$ y $y$, pues todo subcamino de un camino de costo mínimo es de costo mínimo.
+Finalmente si $(x,y)$ pertenece a algún camino de costo mínimo entre $i$ y $y$, entonces se cumple que la suma del costo de la arista $(x,y)$ con el costo de un camino de costo mínimo de $i$ a $x$ debe ser igual
+al costo de un camino de costo mínimo de $i$ a $y$. 
+
+Por lo cual: $ y \in CCM_(i,j) \land (x,y) \in e_(i,y)$, y por lo tanto el algoritmo cuenta a $(x,y)$
+
+Ahora demostremos que si el algoritmo cuenta una arista, esta pertence a algún camino de costo mínimo ente $i$ y $j$:
+
+
+\subsection{Complejidad Temporal}
+
+El algoritmo genera la matriz de los costos caminos de costo mínimo para todos los pares de vértices $(v_i,v_j)$ utilizando el algoritmo
+de Floyd-Warshall, este tiene una complejidad temporal $O(|V|^3)$, luego por cada elemento de la matriz, o sea, par de vértices, (excepto los pares $(i,j)$, con $i=j$)
+el algoritmo recorre todos los vértices del grafo (excepto $i$), para reconocer cuales vértices pertenecen a caminos de costo mínimo entre $i$ y $j$ y cuántas aristas de la forma $(k,j)$ pertenecen
+ a caminos de costo mínimo de $i$ a $j$, esta comprobación sucede en tiempo constante $c$, por lo cual este procedimiento tiene una complejidad temporal $O(|V|^3)$. Luego, para cada par de vértices $(i,j)$ se recorren los vértices previamente calculados
+ que pertenecen a caminos de costo mínimo de $i$ a $j$ (a lo sumo $|V|-1$) y se suma el número de aristas que llegan a cada uno de esos vértices pertenecientes a caminos de costo mínimo provenientes de $i$, este procedimiento tiene una complejidad temporal $O(|V|^3)$.
+ Por tanto la complejidad temporal del algoritmo es $O(3*|V|^3)$, que es $O(|V|^3)$.
 
 
 \end{document}
