@@ -65,13 +65,12 @@ par de nodos y cuenta los arcos que intervienen en los caminos una sola vez.
 La modificaci\'on hecha al algoritmo de Dijkstra no afecta su complejidad temporal, solo se agregan operaciones de complejidad 
 constante a la operaci\'on relax.
 La modalidad de Dijkstra utilizada tiene complejidad $O(|V|^2)$. Luego reconstruir todos los caminos de costo m\'inimo 
-entre un par de v\'ertices es $O(V)$. En cada iteraci\'on del algoritmo se ejecuta una vez el algoritmo 
+entre un par de v\'ertices es $O(E)$. En cada iteraci\'on del algoritmo se ejecuta una vez el algoritmo 
 de Dijkstra y luego por cada uno de los $|V| - 1$ pares a analizar en la iteraci\'on se reconstruyen sus 
-caminos de costo m\'inimo, luego pueden existir como m\'aximo $|E|$ camino de costo m\'inimo diferentes 
-de un origen a un destino, luego el costo de contar todos los caminos de costo m\'inimo entre los $|V| - 1$
-pares es $O((|V|-1)|E||V|)$ = $O(|V|^2|E|)$ = $O(|V|^4)$. Luego el coste de una iteraci\'on es $O(|E| + |V|log|V| + |V|^4)$. 
-El algoritmo realiza $|V|$ iteraciones. Por tanto la complejidad temporal del algoritmo es $O(|V|*(|E| + |V|log|V| + |V|^4))$, 
-que es $O(|V|^5)$
+caminos de costo m\'inimo, luego el costo de contar todos los caminos de costo m\'inimo entre los $|V| - 1$
+pares es $O((|V|-1)|E|)$ = $O(|V||E|)$ = $O(|V|^3)$. Luego el coste de una iteraci\'on es $O(|V|^2 + |V|^3)$. 
+El algoritmo realiza $|V|$ iteraciones. Por tanto la complejidad temporal del algoritmo es $O(|V|*(|V|^2 + |V|^3))$, 
+que es $O(|V|^4)$
 
 \section{Segunda Solución}
 
