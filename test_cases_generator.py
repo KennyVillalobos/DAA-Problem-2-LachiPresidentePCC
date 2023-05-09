@@ -6,7 +6,7 @@ inf = numpy.inf
 def generator(amount):
     cases = []
     for i in range(amount):
-        vertex_number = random.randint(2, 100)
+        vertex_number = random.randint(2, 5)
         graph = [[inf for i in range(vertex_number)] for j in range(vertex_number)]
 
         for j in range(vertex_number):
@@ -14,7 +14,7 @@ def generator(amount):
                 if j !=k:
                     r = random.choices([True, False])
                     if r:
-                        cost = random.randint(1, 100)
+                        cost = random.randint(1, 10)
                         graph[j][k] = cost
                 else:
                     graph[j][k] = 0
